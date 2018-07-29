@@ -1,6 +1,12 @@
 import numpy as np 
 from tkinter import *
 
+'''
+Class: Hopfield()
+Description: the following class generate and runs the pattern engine for the hopfield 
+	neural network. All the computation is done in real time thus, for larger input
+	prediction may take a few moment
+'''
 class Hopfield(object):
 	'''
 	Name: __init__()
