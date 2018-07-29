@@ -22,7 +22,7 @@ Program supports commandline interface which allows to run with variable number 
 -r ROW, --row ROW 	Number of rows for the pattern engine (int)
 -c COL, --col COL 	Number of columns for the pattern engine (int)
 -o [ORDER [ORDER ...]], --order [ORDER [ORDER ...]]
-		List specifying visiting order of each node
+			List specifying visiting order of each node
 ```  
 
 By default, the pattern engine contains 3 rows and 3 columns with lexicographical ordering.
