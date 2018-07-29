@@ -2,10 +2,10 @@ import numpy as np
 from tkinter import *
 
 class Hopfield(object):
-	def __init__(self, row = 3, col = 3):
+	def __init__(self, row = 3, col = 3, order = None):
 		self.root = Tk()
 		self.root.title("Hopfield Game")
-		# self.root.geometry("300x300")
+		# self.root.geometry("500x500")
 
 		self.row = row
 		self.col = col
@@ -13,11 +13,12 @@ class Hopfield(object):
 		self.button = [[0 for x in range(col)] for x in range(row)]
 		self.buttonState = np.zeros((self.row, self.col)) - 1
 
+		self.patterns = []
+		self.order = None if len(order) != row * col else order
+
 		self.createMenubar()
 		self.createToolbar()
 		self.createGUI()
-
-		self.patterns = []
 
 	def buttonClick(self, x, y):
 		if self.buttonState[x][y] == 1:
@@ -135,13 +136,13 @@ class Hopfield(object):
 		updateHistory -- matrix whose columns represent the state of hopfield
 			network at each iteration
 	'''	
-	def  hopfieldNetworkAlgorithm(self, W, V, order = None ):
+	def  hopfieldNetworkAlgorithm(self, W, V, order = None):
 		U = V
 		Vshape = V.shape
 		updateHistory = U
 
 		if order is None:
-			order = range( Vshape[ 0 ] )
+			order = range(Vshape[0])
 		
 		error = True
 		count = 0
@@ -149,13 +150,13 @@ class Hopfield(object):
 		while error:
 			error = False
 			for i in order:
-				temp = self.evolve( W, U, i )
+				temp = self.evolve(W, U, i)
 				count += 1
 				if U[ i - 1 ] != temp:
 					count = 0
 					error = True
 				U[ i - 1 ] = temp
-				updateHistory = np.append( updateHistory, U, axis = 1 )
+				updateHistory = np.append(updateHistory, U, axis = 1)
 
 				if count == Vshape[0]:
 					break
@@ -171,16 +172,11 @@ class Hopfield(object):
 			exit(-1)
 
 		weights = self.generateWeightMatrix(self.transposeList(self.patterns))
-		V = self.stackButtonState()
+		initialState = self.stackButtonState()
 
-		U, updateHistory = self.hopfieldNetworkAlgorithm(weights, V)
 
-		# print("started with = ")
-		# print(V)
-		# print("update history = ")
-		# print(updateHistory)
-		# print("final pattern = ")
-		# print(U)
+		U, updateHistory = self.hopfieldNetworkAlgorithm(weights, 
+								initialState, self.order)
 		self.updateGUI(U)
 
 	def onTrain(self):
