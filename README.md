@@ -18,12 +18,14 @@ Before running any of the code in this repo, the following must be installed at 
 Program supports commandline interface which allows to run with variable number of row and columns and the visiting order for the hopfiled algorithm.
 
 ```
--h, --help			show this help message and exit
+-h, --help	show this help message and exit
 -r ROW, --row ROW 	Number of rows for the pattern engine (int)
 -c COL, --col COL 	Number of columns for the pattern engine (int)
 -o [ORDER [ORDER ...]], --order [ORDER [ORDER ...]]
-					List specifying visiting order of each node
+	List specifying visiting order of each node
 ```  
+
+By default, the pattern engine contains 3 rows and 3 columns with lexicographical ordering.
 
 
 ## Future Imporovements
