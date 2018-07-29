@@ -2,24 +2,48 @@ import numpy as np
 from tkinter import *
 
 class Hopfield(object):
-	def __init__(self, row = 3, col = 3, order = None):
+	'''
+	Name: __init__()
+	Description: Constructor of the Hopfield class. Generates the GUI
+	Parameters:
+		row -- number of row for the pattern engine
+		col -- number of column for the pattern engine
+		order -- visiting order of each node for the hopfield network
+	Return Values: none
+	'''
+	def __init__(self, row = None, col = None, order = None):
 		self.root = Tk()
 		self.root.title("Hopfield Game")
 		# self.root.geometry("500x500")
 
-		self.row = row
-		self.col = col
+		self.row = 3 if row is None else row
+		self.col = 3 if col is None else col
 		
-		self.button = [[0 for x in range(col)] for x in range(row)]
+		self.button = [[0 for x in range(self.col)] for x in range(self.row)]
 		self.buttonState = np.zeros((self.row, self.col)) - 1
 
 		self.patterns = []
-		self.order = None if len(order) != row * col else order
 
-		self.createMenubar()
-		self.createToolbar()
+		if order is None:
+			self.order = None
+		elif order is list:
+			if len(order) != self.row * self.col:
+				self.order = None
+			else:
+				self.order = order
+		else:
+			self.order = None
+
 		self.createGUI()
 
+	'''
+	Name: buttonClick()
+	Description: action for the button click event of the patter engine
+	Parameters:
+		x -- row of the pattern engine
+		y -- column of the pattern engien
+	Return Values: none
+	'''
 	def buttonClick(self, x, y):
 		if self.buttonState[x][y] == 1:
 			self.button[x][y].config(bg = "white")
@@ -28,12 +52,26 @@ class Hopfield(object):
 
 		self.buttonState[x][y] = -1 * self.buttonState[x][y]
 
+	'''
+	Name: clearGUI()
+	Description: reset the GUI to its default configuration
+	Parameters: none
+	Return Values: none
+	'''
 	def clearGUI(self):
 		for x in range(self.row):
 			for y in range(self.col):
 				self.button[x][y].config(bg = "white")
 				self.buttonState[x][y] = -1
 
+	'''
+	Name: createGUI()
+	Description: generates the main structure GUI
+	Parameters:
+		row -- number of rows for the pattern engine
+		col -- number of columns for the pattern engine
+	Return Values:
+	'''
 	def createGUI(self, row = None, col = None):
 		if row is None:
 			row = self.row
@@ -69,6 +107,14 @@ class Hopfield(object):
 		# predict.grid(column = clearCol + 1, row = self.row)
 		predict.grid(column = self.col + 1, row = 2)
 
+		self.createMenubar()
+
+	'''
+	Name: createMenuBar()
+	Description: creates the menubar for the GUI
+	Parameters: none
+	Return Values: none
+	'''
 	def createMenubar(self):
 		self.menu = Menu(self.root)
 		self.root.config(menu = self.menu)
@@ -81,13 +127,9 @@ class Hopfield(object):
 
 		self.menu.add_cascade(label = "Options", menu = options)
 
-	def createToolbar(self):
-		toolbar = Frame(self.root, bd = 1, relief = RAISED)
-
-
 	'''
-	Function name: evolve()
-	Function description: this function determines the next state of a
+	Name: evolve()
+	Description: this function determines the next state of a
 		given neuron for the hopfield network algorithm
 	Parameters:
 		W -- weight matrix of the hopfield network
@@ -105,8 +147,8 @@ class Hopfield(object):
 			return 1
 
 	'''
-	Function name: generateWeightMatrix()
-	Functiion description: this function generates the weight matrix for
+	Name: generateWeightMatrix()
+	Description: this function generates the weight matrix for
 		the hopfield network
 	Parameters:
 		X -- matrix whose columns represents the patterns that needs to be
@@ -123,8 +165,8 @@ class Hopfield(object):
 		return W
 
 	'''
-	Function Name: hopfieldNetworkAlgorithm()
-	Function description: this function perform the algorithm for hopfield
+	Name: hopfieldNetworkAlgorithm()
+	Description: this function perform the algorithm for hopfield
 		network algorithm
 	Parameters:
 		W -- weight matrix of the network
@@ -163,9 +205,22 @@ class Hopfield(object):
 
 		return U, updateHistory
 
+	'''
+	Name: onExit()
+	Description: on click event for the 'Exit' selection under menubar
+	Parameters: none
+	Return Values: none
+	'''
 	def onExit(self):
 		exit()
 
+	'''
+	Name: onPredict()
+	Description: on click event for the 'Predict' button selection. The pattern
+		engine predicts and display the final state based on the training set
+	Parameters: none
+	Return Values: none
+	'''
 	def onPredict(self):
 		if self.patterns == []:
 			print("Must train on at least one pattern before predicting.")
@@ -177,27 +232,64 @@ class Hopfield(object):
 
 		U, updateHistory = self.hopfieldNetworkAlgorithm(weights, 
 								initialState, self.order)
+
 		self.updateGUI(U)
 
+	'''
+	Name: onTrain()
+	Description: on click event for the 'Train' button selection. The pattern
+		engine stores the current configuration as training set and reset the 
+		GUI to default configuration
+	Parameters: none
+	Return Values: none
+	'''
 	def onTrain(self):
 		self.patterns.append(np.hstack(self.buttonState))
 		self.clearGUI()
 
-	def runGUI(self):
+	'''
+	Name: run()
+	Description: mainloop that runs the GUI
+	Parameters: none
+	Return Values: none
+	'''
+	def run(self):
 		self.root.mainloop()
 
+	'''
+	Name: stackButtonState()
+	Description: vertically stack the current configuration of the pattern engine
+		into a column vector
+	Parameters: none
+	Return Values:
+		vec -- column vector representing the current state of the pattern engine
+	'''
 	def stackButtonState(self):
-		temp = np.empty((self.row * self.col, 1))
+		vec = np.empty((self.row * self.col, 1))
 
 		for x in range(self.row):
 			for y in range(self.col):
 				temp[self.col * x + y, 0] = self.buttonState[x][y]
 
-		return temp
+		return vec 
 
+	'''
+	Name: transposeList()
+	Description: transpose any list into a column vector
+	Parameters:
+		l -- list to transpose
+	Return Values: list as column vector 
+	'''
 	def transposeList(self, l):
 		return [list(i) for i in zip(*l)]
 
+	'''
+	Name: updateGUI()
+	Description: updates the pattern engine to match a specified state
+	Parameters:
+		state -- state of the pattern engine as column vector
+	Return Values: none
+	'''
 	def updateGUI(self, state):
 		for i in range(self.row * self.col):
 			row = int(i / self.col)
