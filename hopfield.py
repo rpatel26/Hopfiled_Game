@@ -287,7 +287,7 @@ class Hopfield(object):
 
 		for x in range(self.row):
 			for y in range(self.col):
-				temp[self.col * x + y, 0] = self.buttonState[x][y]
+				vec[self.col * x + y, 0] = self.buttonState[x][y]
 
 		return vec 
 

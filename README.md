@@ -25,8 +25,9 @@ Program supports commandline interface which allows to run with variable number 
 			List specifying visiting order of each node
 ```  
 
-By default, the pattern engine contains 3 rows and 3 columns with lexicographical ordering.
+By default, the pattern engine contains 3 rows and 3 columns with lexicographical ordering. To run the program with default setting, use `python ./testHopfield.py`.
 
+To run the program with 4 rows and 5, use `python ./testHopfield.py -r 4 -c 5`
 
 ## Future Imporovements
 * Add additional features to GUI
