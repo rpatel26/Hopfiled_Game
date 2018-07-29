@@ -31,27 +31,15 @@ class Hopfield(object):
 
 		self.patterns = []
 
-		print("init: len(order) = ", len(order))
-		print("init: type(order) = ", type(order))
-
 		if order is None:
-			print("one")
 			self.order = None
 		elif type(order) is list:
 			if len(order) == self.row * self.col:
-				print("two")
-				# self.order = None
 				self.order = self.getOrderList(order)
 			else:
-				print("three")
-				# self.order = order
-				# self.order = self.getOrderList(order)
 				self.order = None
 		else:
-			print("four")
 			self.order = None
-
-		print("init: self.order = ", self.order)
 
 		self.createGUI()
 
