@@ -1,4 +1,5 @@
 import numpy as np 
+import random
 from tkinter import *
 
 '''
@@ -30,15 +31,27 @@ class Hopfield(object):
 
 		self.patterns = []
 
+		print("init: len(order) = ", len(order))
+		print("init: type(order) = ", type(order))
+
 		if order is None:
+			print("one")
 			self.order = None
-		elif order is list:
-			if len(order) != self.row * self.col:
-				self.order = None
+		elif type(order) is list:
+			if len(order) == self.row * self.col:
+				print("two")
+				# self.order = None
+				self.order = self.getOrderList(order)
 			else:
-				self.order = order
+				print("three")
+				# self.order = order
+				# self.order = self.getOrderList(order)
+				self.order = None
 		else:
+			print("four")
 			self.order = None
+
+		print("init: self.order = ", self.order)
 
 		self.createGUI()
 
@@ -183,6 +196,23 @@ class Hopfield(object):
 		return W
 
 	'''
+	Name: gerOrderList()
+	Description: checks where a list is valid for visiting order
+	Parameters: 
+		l -- list to validate
+	Return Value:
+		l -- if l is valid 
+		None -- if l is not valid
+	'''
+	def getOrderList(self, l):
+		print("getting order list")
+		elementSum = sum(l)
+		length = len(l) - 1
+		expectedSum = int(length * (length + 1) / 2)
+
+		return l if elementSum == expectedSum else None
+
+	'''
 	Name: hopfieldNetworkAlgorithm()
 	Description: this function perform the algorithm for hopfield
 		network algorithm
@@ -202,7 +232,7 @@ class Hopfield(object):
 		updateHistory = U
 
 		if order is None:
-			order = range(Vshape[0])
+			order = random.sample(range(Vshape[0]), Vshape[0])
 		
 		error = True
 		count = 0

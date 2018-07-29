@@ -25,9 +25,18 @@ Program supports commandline interface which allows to run with variable number 
 			List specifying visiting order of each node
 ```  
 
-By default, the pattern engine contains 3 rows and 3 columns with lexicographical ordering. To run the program with default setting, use `python ./testHopfield.py`.
+By default, the pattern engine contains 3 rows and 3 columns with random visiting order. To run the program with default setting, use `python ./testHopfield.py`.
 
 To run the program with 4 rows and 5, use `python ./testHopfield.py -r 4 -c 5`
+
+### Visiting Order for the Hopfield Algorithm
+Size of the list specifying order must exactly be equal to `row * column`. Furthermore, each of the element in the `order` list must be unique, ranging from `0 to [(row * col) - 1]`.
+
+For example, if the pattern machine has 4 row and 3 column, then the size of the `order` list must be `4 * 3 = 12` element. The following is one possible combination:
+
+`python .\testHopfield.py -r 4 -c 3 -o 0 2 4 6 8 10 1 3 5 7 9 11`
+
+If the size of the `order` list does not match `row * column` or the element of the list does not satisfy the ranging criteria, then `order` list will be randomized to a new valid list.
 
 ## Future Imporovements
 * Add additional features to GUI
