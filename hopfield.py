@@ -10,7 +10,7 @@ Description: the following class generate and runs the pattern engine for the ho
 class Hopfield(object):
 	'''
 	Name: __init__()
-	Description: Constructor of the Hopfield class. Generates the GUI
+	Description: constructor of the Hopfield class. Generates the GUI
 	Parameters:
 		row -- number of row for the pattern engine
 		col -- number of column for the pattern engine
