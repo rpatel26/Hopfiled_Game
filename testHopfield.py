@@ -1,3 +1,5 @@
-import numpy as np 
+from hopfield import Hopfield
 
-print("testing Hopfiled NN")
+print("Testing Hopfield")
+test = Hopfield(row = 3, col = 4)
+test.runGUI()
