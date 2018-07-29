@@ -1,6 +1,7 @@
 # Hopfield Pattern Engine
 
 ## About
+The following is a pattern recognition engine based on the Hopfield Neural Network.
 
 ## Prerequisite
 Before running any of the code in this repo, the following must be installed at the minimum:
