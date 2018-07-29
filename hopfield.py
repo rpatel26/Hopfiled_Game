@@ -71,6 +71,17 @@ class Hopfield(object):
 				self.buttonState[x][y] = -1
 
 	'''
+	Name: clearTraining()
+	Description: on click event for 'Clear Training Data'. Clears the
+		training dataset
+	Parameters: none
+	Return Value: none
+	'''
+	def clearTraining(self):
+		self.patterns = []
+		print("Cleared Training Data")
+
+	'''
 	Name: createGUI()
 	Description: generates the main structure GUI
 	Parameters:
@@ -129,6 +140,7 @@ class Hopfield(object):
 		options.add_command(label = "Train", command = self.onTrain)
 		options.add_command(label = "Predict", command = self.onPredict)
 		options.add_command(label = "Clear Selection", command = self.clearGUI)
+		options.add_command(label = "Clear Training Data", command = self.clearTraining)
 		options.add_command(label = "Exit", command = self.onExit)
 
 		self.menu.add_cascade(label = "Options", menu = options)
