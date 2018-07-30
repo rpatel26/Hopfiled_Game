@@ -108,24 +108,34 @@ class Hopfield(object):
 				self.button[x][y] = Button(self.frame, bg = "white",
 					command = lambda x1 = x,y1 = y: self.buttonClick(x1,y1))
 				self.button[x][y].grid(column = y, row = x)
-				self.button[x][y].config(height = int(row / h), width = int(col / w))
+				# self.button[x][y].config(height = int(row / h), width = int(col / w))
+				self.button[x][y].config(height = 2, width = 3)
+				self.button[x][y].location = (x,y)
+				# self.button[x][y].bind('<B1-Motion>', self.onLeftDrag)
+				# print("button = ", self.button[x][y].location)
 
 		self.frame.pack(expand = True)
 
 		clearCol = int(self.col / 2)
-		clear = Button(self.frame, text = "Clear Selection", command = self.clearGUI)
+		clear = Button(self.frame, text = "Clear Selection", 
+			command = self.clearGUI, fg = "red")
 		# clear.grid(column = int(self.col / 2), row = self.row)
 		clear.grid(column = self.col + 1, row = 0)
 
-		train = Button(self.frame, text = "Train", command = self.onTrain)
+		train = Button(self.frame, text = "Train", 
+			command = self.onTrain, fg = "blue")
 		# train.grid(column = int(self.col / 4), row = self.row)
 		train.grid(column = self.col + 1, row = 1)
 
-		predict = Button(self.frame, text = "Predict", command = self.onPredict)
+		predict = Button(self.frame, text = "Predict", 
+			command = self.onPredict, fg = "green")
 		# predict.grid(column = clearCol + 1, row = self.row)
 		predict.grid(column = self.col + 1, row = 2)
 
 		self.createMenubar()
+
+	def onLeftDrag(self, event):
+		print("onLeftDrag = ", event.widget, " \t x = ", event.x, " \t y = ", event.y)
 
 	'''
 	Name: createMenuBar()
