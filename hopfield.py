@@ -23,8 +23,8 @@ class Hopfield(object):
 		self.root.title("Hopfield Game")
 		# self.root.geometry("500x500")
 
-		self.row = 3 if row is None else row
-		self.col = 3 if col is None else col
+		self.row = 4 if row is None else row
+		self.col = 4 if col is None else col
 		
 		self.button = [[0 for x in range(self.col)] for x in range(self.row)]
 		self.buttonState = np.zeros((self.row, self.col)) - 1
